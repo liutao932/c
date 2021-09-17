@@ -1,0 +1,29 @@
+int* my_memmove(int* dst, int* src, size_t count)
+{
+	if (dst < src)
+	{
+		while (count--)
+		{
+			*(char*)dst = *(char*)src;
+			(char*)dst = (char*)dst + 1;
+			(char*)src = (char*)src + 1;
+		}
+	}
+	else
+	{
+		while (count--)
+		{
+			*((char*)dst + count) = *((char*)src + count);
+		}
+	}
+}
+int main()
+{
+	int arr[] = { 1,2,3,4,5,6,7,8,9 };
+	//memcpy(arr1, arr2, 36);
+	my_memmove(arr + 2, arr, 16);
+	for (int i = 0; i < 9; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+}
