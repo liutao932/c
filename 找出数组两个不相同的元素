@@ -1,0 +1,51 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<assert.h>
+int* brinay_number(int* arr, int len)
+{
+	int* rv = (int*)malloc(sizeof(int) * 2);
+    int ret = 0;
+    for (int i = 0; i < len; i++)
+    {
+        ret ^= arr[i];
+    }
+    int m = 0;
+    while (m < 32)
+    {
+        if (ret & (1 << m))
+        {
+            break;
+
+        }
+        else
+            m++;
+    }
+    //第三步分离出这两个数
+    int x1 = 0; int x2 = 0;
+    for (int i = 0; i < len; i++)
+    {
+        if (arr[i] & (1 << m))
+        {
+            x1 ^= arr[i];
+        }                           //注意分离这两个数时，要在元素组中分离
+        else
+        {
+            x2 ^= arr[i];
+        }    
+    }
+    rv[0] = x1;
+    rv[1] = x2;
+    return rv;
+}
+int main()
+{
+	int arr[] = { 1,1,2,3,3,4,4,5 };
+	int len = sizeof(arr) / sizeof(int);
+	int * ret = brinay_number(arr, len);
+    for (int i = 0; i < 2; i++)
+    {
+        printf("%d ", *(ret + i));
+    }
+}
