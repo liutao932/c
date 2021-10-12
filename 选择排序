@@ -1,0 +1,26 @@
+int main()
+{
+	int arr[] = { 1,4,5,2,3,7,8,2 };
+	for (int i = 0; i < sizeof(arr) / sizeof(int) -1 ; i++)
+	{
+		int end = i;
+		int key = arr[end + 1];
+		while (end >= 0)
+		{
+			if (arr[end] > key)
+			{
+				arr[end + 1] = arr[end];
+				end--;
+			}
+			else
+			{
+				break;
+			}
+		}
+		arr[end + 1] = key;
+	}
+	for (int i = 0; i < sizeof(arr) / sizeof(int); i++)
+	{
+		printf("%d ", arr[i]);
+	}
+}
