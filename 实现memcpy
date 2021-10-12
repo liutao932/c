@@ -1,7 +1,7 @@
 int* my_memcpy(int* arr1, const int* arr2, size_t count)   //size_t count是内存拷贝的字节数
 {
 	assert(arr1 && arr2);
-	int* ret = arr1;
+	char* ret = arr1;
 	while (count--)
 	{
 		*(char*)arr1 = *(char*)arr2;       //一个字节一个字节的拷贝
