@@ -1,0 +1,47 @@
+int * FindTwoNumber(const int* arr, int len)
+{
+	assert(arr);
+	int* array = (int*)malloc(sizeof(int) * 2);
+	if (array == NULL)
+	{
+		printf("malloc is false\n");
+		return;
+	}
+	int ret = 0;
+	for (int i = 0; i < len; i++)
+	{
+		ret ^= arr[i];
+	}
+	int pos = 0;
+	for (int i = 0; i < 32; i++)
+	{
+		if (((ret >> i) & 1) == 1)
+		{
+			pos = i;
+			break;
+		}
+	}
+	int x1 = 0;
+	int x2 = 0;
+	for (int i = 0; i < len; i++)
+	{
+		if (((arr[i] >> pos) & 1) == 1)
+		{
+			x1 ^= arr[i];
+		}
+		else
+		{
+			x2 ^= arr[i];
+		}
+	}
+	array[0] = x1;
+	array[1] = x2;
+	return array;
+}
+int main()
+{
+	int arr[] = { 0,0,1,1,2,2,3,8 };
+	int* p = NULL;
+	p = FindTwoNumber(arr, sizeof(arr) / sizeof(arr[0]));
+	printf("%d %d", p[0], p[1]);
+}
