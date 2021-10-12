@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#include<ctype.h>
+enum my_enum
+{
+	VALLD,
+	INVALLD
+};
+enum my_enum ext = INVALLD;
+int  my_autoi(const char* str)
+{
+	assert(str);
+	if (*str == '\0')
+	{
+		return 0;
+	}
+	while (isspace(*str))
+	{
+		str++;
+	}
+	int flag = 1;
+	if (*str == '+')
+	{
+		str++;
+	}
+	else if (*str == '-')
+	{
+		flag = -1;
+		str++;
+	}
+	long long count = 0;
+	while (*str)
+	{
+		if (isdigit(*str))
+		{
+			count = count * 10 + (flag * (*str - '0'));
+			if (count > INT_MAX || count < INT_MIN)
+			{
+				printf("full ");
+				return 0;
+			}
+			str++;
+		}
+		else
+		{
+			ext = VALLD;
+			return (int )count;
+		}
+	}
+	ext = VALLD;
+	return (int)count;
+}
+int main()
+{
+	//char str[] = "   1234a";
+	int ret = my_autoi("");
+	if (ext == 0)
+	{
+		printf("return is scuess :> %d", ret);
+	}
+	else
+	{
+		printf("return is error :> %d", ret);
+	}
+}
