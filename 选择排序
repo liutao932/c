@@ -3,11 +3,11 @@ int main()
 	int arr[] = { 1,4,5,2,3,7,8,2 };
 	for (int i = 0; i < sizeof(arr) / sizeof(int) -1 ; i++)
 	{
-		int end = i;
-		int key = arr[end + 1];
+		int end = i;    //保持当前下标
+		int key = arr[end + 1];    //key记录当前坐标下个元素
 		while (end >= 0)
 		{
-			if (arr[end] > key)
+			if (arr[end] > key)    //如果当前坐标大于下个元素坐标则依次后移，如果不满足条件停止把空着的下标赋值为key;
 			{
 				arr[end + 1] = arr[end];
 				end--;
