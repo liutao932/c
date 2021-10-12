@@ -1,0 +1,15 @@
+#define OFFSETOF(struct_type,mem)      (int)&(((struct_type*)0)->mem)
+struct Sta
+{
+	int a;
+	short b;
+	long c;
+};
+int main()
+{
+	struct Sta AA_t;
+	printf("%d ", OFFSETOF(struct Sta, a));
+	printf("%d ", OFFSETOF(struct Sta, b));
+	printf("%d ", OFFSETOF(struct Sta, c));
+	return 0;
+}
