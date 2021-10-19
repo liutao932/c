@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<stdlib.h>
+void replace_blank(char* ptr)
+{
+
+    int len = 0;
+    int newlen = 0;
+    int blank = 0;
+    char* sptr = ptr;
+    char* oldptr;
+    char* newptr;
+    while (*ptr)
+    {
+        if (*ptr == ' ')
+        {
+            blank++;
+        }
+        len++;
+        ptr++;
+    }
+    newlen = len + 2 * blank;   //算出最终结果的长度
+    oldptr = sptr + len - 1;
+    newptr = sptr + newlen - 1;
+
+    while (oldptr < newptr)
+    {
+        if (*oldptr == ' ')
+        {
+            *newptr-- = '0';
+            *newptr-- = '2';
+            *newptr-- = '%';
+            oldptr--;
+        }
+        else
+        {
+            *newptr = *oldptr;
+            newptr--;
+            oldptr--;
+        }
+        
+    }
+
+}
+
+int main()
+{
+    char p[30] = "we are happy";
+    replace_blank(p);
+    printf("%s", p);
+    return 0;
+}
