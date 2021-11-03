@@ -1,0 +1,106 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#include<string.h>
+/*
+* str 主串
+* sub 子串
+* strprev 主串和子串比较的下标
+* strcur 主串开始的位置，如果不匹配就 + 1
+* subprev 子串和主串比较的下标
+* subcur 子串开始下标始终是0
+*/
+int BF(char* str, char* sub)
+{
+	assert(str != NULL && sub != NULL);
+	int lenstr = strlen(str);
+	int lensub = strlen(sub);
+	if (lenstr == 0 || lensub == 0) return -1;
+	int strcur = 0;
+	int strprev = 0;
+	int subcur = 0;
+	int subprev = 0;
+	while (strprev < lenstr && subprev < lensub)
+	{
+		if (str[strprev] == sub[subprev])
+		{
+			strprev++;
+			subprev++;
+		}
+		else
+		{
+			subprev = subcur;
+			strcur++;
+			strprev = strcur;
+		}
+	}
+	if (sub[subprev] == '\0')
+	{
+		return strcur;
+	}
+	return -1;
+}
+/*
+* str是主串
+* sub是子串
+* next是保存子串从哪开始匹配
+*/
+void GetNext(char* sub, int* next, int len)
+{
+	assert(sub);
+	assert(next);
+	next[0] = -1;
+	next[1] = 0;
+	int k = 0;
+	int i = 2;
+	while (i < len)
+	{
+		if ((k == -1) || sub[i - 1] == sub[k]) // 如果开始就不匹配那么k 会回退到-1所以要加条件
+		{                            //不然会越界
+			next[i] = k + 1;
+			k++;
+			i++;
+		}
+		else
+		{
+			k = next[k];
+		}
+	}
+}
+int KMP(char* str, char* sub, int pos)
+{
+	assert(str != NULL && sub != NULL);
+	int lenstr = strlen(str);
+	int lensub = strlen(sub);
+	if (lenstr == 0 || lensub == 0)  return -1;
+	if (pos < 0 || pos >= lenstr)   return -1;
+	int i = pos;
+	int j = 0;
+	int* next = (int*)malloc(sizeof(int) * lensub);
+	assert(next);
+	GetNext(sub, next, lensub);
+	while (i < lenstr && j < lensub)
+	{
+		if ( (j == -1) || str[i] == sub[j])
+		{
+			i++;
+			j++;
+		}
+		else
+		{
+			j = next[j];
+		}
+	}
+	free(next);
+	if (j >= lensub)
+	{
+		return i - j;
+	}
+	return -1;
+}
+
+int main()
+{
+//	printf("%d", BF("adfhbcdefdsfdwf", "bcd"));
+	printf("%d", KMP("adfhbcdefdsfdwf", "bcd",0));
+}
