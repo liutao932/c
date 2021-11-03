@@ -1,0 +1,68 @@
+void GetNext(char* sub, int* next, int len)
+{
+	assert(sub);
+	assert(next);
+	next[0] = -1;
+	next[1] = 0;
+	int k = 0;
+	int i = 2;
+	while (i < len)
+	{
+		if ((k == -1) || sub[i - 1] == sub[k]) // 如果开始就不匹配那么k 会回退到-1所以要加条件
+		{                            //不然会越界
+			next[i] = k + 1;
+			k++;
+			i++;
+		}
+		else
+		{
+			k = next[k];
+		}
+	}
+}
+int strStr(char* haystack, char* needle) {
+	int lenstr = strlen(haystack);
+	int lensub = strlen(needle);
+	if (lensub == 0) return 0;
+	if (lenstr == 0)  return -1;
+	int i = 0;
+	int j = 0;
+	if (lensub > 1)
+	{
+		int* next = (int*)malloc(sizeof(int) * lensub);
+		GetNext(needle, next, lensub);
+		while (i < lenstr && j < lensub)
+		{
+			if ((j == -1) || haystack[i] == needle[j])
+			{
+				i++;
+				j++;
+			}
+			else
+			{
+				j = next[j];
+			}
+		}
+		free(next);
+		if (j >= lensub)
+		{
+			return i - j;
+		}
+	}
+	else
+	{
+		while(i < lenstr)
+        {
+            if(haystack[i] == needle[j])
+            {
+                return i;
+            }
+            else
+            {
+                i++;
+            }
+        }
+	}
+	
+	return -1;
+}
