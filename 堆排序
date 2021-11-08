@@ -1,0 +1,56 @@
+void AdjustDown2(int* array, int n, int parent)
+{
+	assert(array);
+	int child = parent * 2 + 1;
+	while (child < n)
+	{
+		if (child + 1 < n && array[child + 1] > array[child])
+		{
+			child++;
+		}
+		if (array[child] > array[parent])
+		{
+			int tmp = array[child];
+			array[child] = array[parent];
+			array[parent] = tmp;
+
+			parent = child;
+			child = parent * 2 + 1;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+void swap2(int* a, int* b)
+{
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+void test2()
+{
+	int array[] = { 10,20,30,65,43,22,75,90 };
+	for (int i = (8 - 1 - 1) / 2; i >= 0; i--)
+	{
+
+		AdjustDown2(array, 8, i);
+	}
+
+
+	for (int i = 8 - 1; i > 0; i--)
+	{
+		swap2(&array[0], &array[i]);
+		AdjustDown2(array, i, 0);
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		printf("%d ", array[i]);
+	}
+}
+int main()
+{
+	//test();
+	test2();
+}
