@@ -1,0 +1,45 @@
+1. 上传代码到gitlab
+1.创建branch
+以基于main分支创建为例。
+
+①clone main code
+
+$ git clone ssh://git@gitlab.devtools.intel.com:29418/QAT/drivers/sample_code.git
+
+②create a new develop branch
+
+$ cd sample_code
+
+$  git checkout -b XXX(branch name)
+
+2.修改代码
+3.上传代码
+①把修改后的文件放到开发分支的对应路径下
+
+②git add 修改后的文件
+
+$ git add <文件名/文件夹>
+
+$ git add 文件夹  文件夹下的变更文件都会被添加到上传列表中
+
+③用clang工具检查代码合法性(具体操作请参照第4章)
+
+④填写log
+
+$ git commit -m "log内容"   (例如：git commit -m "QSN4-128 KPT test code develop ISG_LBGNS-SKLREQT-401")
+
+如果log内容较多，可以对log进行换行，操作如下
+
+$ git commit -m ‘log内容 line 1[回车]
+
+   log内容line 2[回车]
+
+   .............
+
+   log内容line n‘[回车]
+
+注意，单行log的引号是双引号，多行log的引号是单引号。
+
+⑤push 代码
+
+$ git push origin HEAD
