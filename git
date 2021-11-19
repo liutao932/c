@@ -1,0 +1,185 @@
+
+Skip to end of metadata
+Created by Xue, ZhitaoX, last modified about 17 hours ago
+Go to start of metadata
+1. 上传代码到gitlab
+1.创建branch
+2.修改代码
+3.上传代码
+2. Create a merge request
+1.copy the merge request link to your browser
+2.modify the Title
+3.click assign to me
+4.add Approvers
+5.choose "Delete source branch when merge request is accepted." and "Squash commits when merge request is accepted."
+6.Label of the review should contain the label of the QAT program
+7.click the "Submit merge request" button
+3. 修改已经上传到gitlab中的代码
+4. 用clang工具检查代码合法性
+5. rebase
+1. 上传代码到gitlab
+1.创建branch
+以基于main分支创建为例。
+
+①clone main code
+
+$ git clone ssh://git@gitlab.devtools.intel.com:29418/QAT/drivers/sample_code.git
+
+②create a new develop branch
+
+$ cd sample_code
+
+$  git checkout -b XXX(branch name)
+
+2.修改代码
+3.上传代码
+①把修改后的文件放到开发分支的对应路径下
+
+②git add 修改后的文件
+
+$ git add <文件名/文件夹>
+
+$ git add 文件夹  文件夹下的变更文件都会被添加到上传列表中
+
+③用clang工具检查代码合法性(具体操作请参照第4章)
+
+④填写log
+
+$ git commit -m "log内容"   (例如：git commit -m "QSN4-128 KPT test code develop ISG_LBGNS-SKLREQT-401")
+
+如果log内容较多，可以对log进行换行，操作如下
+
+$ git commit -m ‘log内容 line 1[回车]
+
+   log内容line 2[回车]
+
+   .............
+
+   log内容line n‘[回车]
+
+注意，单行log的引号是双引号，多行log的引号是单引号。
+
+⑤push 代码
+
+$ git push origin HEAD
+
+commit message specification
+
+①Author must be in this format : Zhitaox Xue
+    This is wrong: xuezhitao
+    Method to modify author: git commit --amend --author="xxx <xxxx@xxx.xxx>"
+
+②Must have a title, the format of the title: QAT20-$$$$: XXXXXXXXXX
+   QAT20-$$$$ is the ticket No.
+   Some repo requires that the ticket No. must be QAT20-$$$$ or QATE-$$$$ or MQ9-$$$$
+   Our ticket No. is QSN4-$$$, so if necessary, you can rely on huoyao to create a ticket like QAT20-$$$$ corresponding to our job
+
+③Must have message body
+   Record the content of the assignment
+
+④Must have Signed-off-by: xxx <xxxx@xxx.xxx>
+   When submitting the code, use ‘-s’ to automatically add Signed-off-by
+   git commit -s -m"xxxx" or
+   git commit -s - amend
+
+⑤Whether it is the title or the message body, the length of each line cannot exceed 70 characters
+
+The following is a standardized commit message
+
+-----------------------------------------------------------------------------------
+
+Author: Zhitaox Xue <zhitaox.xue@intel.com>
+
+Date:   Fri Nov 27 05:02:40 2020 -0500
+
+    QAT20-0769: KPT code verify with master KPT2.0 RSA sign and decrypt
+
+    kpt rsa bom files
+
+    Signed-off-by: Zhitaox Xue <zhitaox.xue@intel.com>
+
+-----------------------------------------------------------------------------------
+
+2. Create a merge request
+代码push完成后，会显示一个网页链接
+
+1.copy the merge request link to your browser
+
+
+2.modify the Title
+All code reviews not ready for the BB review should be marked as WIP (Work in Progress)
+
+
+
+3.click assign to me
+4.add Approvers
+5.choose "Delete source branch when merge request is accepted." and "Squash commits when merge request is accepted."
+
+
+6.Label of the review should contain the label of the QAT program
+
+
+7.click the "Submit merge request" button
+3. 修改已经上传到gitlab中的代码
+代码review之后，需要进行修改，再上传到gitlab中
+
+1.把修改后的文件放到开发分支的对应路径下
+
+2.git add 修改后的文件
+
+3.用clang工具检查代码合法性(具体操作请参照第4章)
+
+4.git commit --amend
+
+5.git push origin HEAD -f
+
+※4和5跟首次上传代码的步骤不同，可以直接编辑log内容，而不会产生一个新的commit ID
+
+4. 用clang工具检查代码合法性
+1.将git-clang-format.py文件copy到sample_code/ 路径
+
+2.将.clang-format文件copy到sample_code/ 路径
+
+3.执行 ./git-clang-format.py --commit=HEAD~1 --style=file
+
+4.执行完成后，会将被修改的文件列出,将这些文件再次git add,例如：
+
+   changed files:
+
+         system_test_benchmarks/key_protection_technology_tests/key_protection_technology_tests.c
+
+         system_test_benchmarks/stv_test_code_utils.h
+
+   $ git add system_test_benchmarks/key_protection_technology_tests/key_protection_technology_tests.c
+
+   $ git add system_test_benchmarks/stv_test_code_utils.h
+
+5. rebase
+branch 迁出后，master的代码依然在不断更新，将master在branch迁出后的更新内容merge到branch中，就要进行rebase
+
+步骤如下
+
+1.$ git rebase main
+
+2.如果有冲突,解决冲突
+
+提示哪版冲突，就放哪版代码，例如
+
+Patch failed at 0001     QSN4-128 KPT test code develop ISG_LBGNS-SKLREQT-401
+
+那么就将401这个patch的代码覆盖到对应路径下
+
+3.将解决冲突后的文件add到上传列表中
+
+git add <file name>
+
+4.git rebase --continue
+
+如果还有冲突，就从2.开始执行到4.
+
+5.直到不再提示有冲突后，执行下记步骤
+
+git commit --amend
+
+git push origin HEAD -f
+
