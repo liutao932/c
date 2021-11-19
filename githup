@@ -2,6 +2,8 @@
 1.创建branch
 以基于main分支创建为例。
 
+
+例子;https://wiki.ith.intel.com/display/PRCCIDSW/CPM2.0+how+to+use+gitlab
 ①clone main code
 
 $ git clone ssh://git@gitlab.devtools.intel.com:29418/QAT/drivers/sample_code.git
