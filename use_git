@@ -1,0 +1,242 @@
+rngit
+$ cd learngit
+$ pwd
+初始化一个Git仓库
+git init ,把这个目录变成Git可以管理的仓库(目录下多了一个.git的目录 ls -a)
+
+添加文件到Git仓库:
+git add 把文件添加到仓库
+git commit -m " xxx" 文件提交到仓库
+git status 工作区的状态,让我们时刻掌握仓库当前的状态
+git diff  查看修改内容
+
+版本回退
+git log (--pretty=online)查看提交历史,显示从最近到最远的提交日志,以便确定要回退到哪个版本。
+
+用HEAD表示当前版本，也就是最新的提交3628164...882e1e0，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然
+
+往上100个版本写100个^比较容易数不过来，所以写成HEAD~100
+git reset --hard HEAD^   回退到上一个版本
+
+git reset --hard  (3628164)   指定回到某个版本(版本号没必要写全，前几位就可以了，Git会自动去找。
+
+当然也不能只写前一两位)
+git reflog   查看命令历史，以便确定要回到未来的哪个版本。
+
+工作区和暂存区
+工作区（Working Directory）
+暂存区(stage或index)
+版本库（Repository）工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库
+前面讲了我们把文件往Git版本库里添加的时候，是分两步执行的：
+ 第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
+ 第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+
+
+
+
+
+
+
+git diff HEAD -- readme.txt   查看工作区和版本库里面最新版本的区别
+
+撤销修改
+git checkout -- readme.txt    当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时
+
+当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改
+第一步：git reset HEAD readme.txt   把暂存区的修改回退到工作区
+第二部：git checkout -- readme.txt  
+
+
+提交分支错误，复制分支：
+
+
+
+删除文件
+一、rm只删除工作区信息； 使用 git checkout -- file即可恢复；
+二、git rm 删除工作区和stage信息；
+1、使用git reset HEAD -- file即可恢复；
+
+2、恢复步骤：
+
+     1）先使用git reset HeAD -- file从master中把已删除信息copy到到stage区；
+
+     2）再使用git checkout -- file从stage区把已删除信息copy到工作区。over！！！
+
+     3）这时你就看到删除的文件又回来啦。啦啦
+
+三、git commit －m “file”删除工作区，stage和master信息；
+
+     1、使用git reset --hard HEAD^即可恢复。
+
+     2、恢复步骤： 1）先使用git reset --hard HEAD^从master回收处恢复到master中； 2）再使用git reset HeAD -- file从
+         master中把已删除信息copy到到stage区；
+
+     3）最后，使用git checkout -- file从stage区把已删除信息copy到工作区
+     4）这时你就看到删除的文件又回来啦。啦啦啦！
+
+
+远程仓库
+
+1.注册一个GitHub账号，就可以免费获得Git远程仓库。
+
+2.本地Git仓库和GitHub仓库之间的传输是通过SSH加密的
+
+     1）建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和          id_rsa.pub这两个文件，如果没有，创建ssh key：
+
+        $ ssh-keygen -t rsa -C "youremail@example.com"
+
+     2）登陆GitHub，打开“Account settings”，“SSH Keys”页面：点“Add SSH Key”，填上任意             Title，在Key文本框里粘贴id_rsa.pub文件的内容：
+
+添加远程库：
+
+    点击按钮create a new repository 创建一个新的仓库
+
+     关联一个远程库,把本地仓库的内容推送到GitHub仓库
+
+     $ git remote add origin git@github.com:michaelliao/learngit.git
+
+   把本地库的所有内容推送到远程库上
+
+     $ git push -u origin master
+
+     由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支      内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的      推送或者拉取时就可以简化命令。
+
+从远程库克隆：
+
+     git clone git@github.com:jialechun/learngit1.git
+
+
+
+分支管理
+
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+
+
+                                     git merge --no-ff -m "merged bug fix 101" issue-101
+
+
+
+删除分支：git branch -d <name>
+
+看到分支合并图: git log --graph
+
+git stash   切换分支前把修改的内容存在某个地方
+
+git stash list   查看存储的内容
+
+git stash apply   切回分支恢复修改的内容，stash内容不删除
+
+git stash apply stash@{0} 多次stash，切回分支指定恢复修改的内容，stash内容不删除
+
+git stash pop  恢复同时stash的内容也删除
+
+git branch -D <name> 强行删除。要丢弃一个没有被合并过的分支
+
+
+
+查看远程库信息，使用git remote -v；
+
+本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+创建标签
+
+
+
+命令git tag v1.0  用于新建一个标签，默认为HEAD，也可以指定一个commit id；
+
+git tag v0.9 6224937   找到历史提交的commit id新建一个标签
+
+git tag -a v0.1 -m "说明文字"   可以指定标签信息；
+
+git tag -s <tagname> -m "blablabla..."可以用PGP签名标签；
+
+命令git tag可以查看所有标签。
+
+git tag -r 查看远程标签
+
+命令git show v0.9    可以看到说明文字
+
+     $ git pull origin --tags      合并远程仓库的tag到本地：
+
+命令git push origin <tagname>可以推送一个本地标签；
+
+命令git push origin --tags可以推送全部未推送过的本地标签；
+
+标签已经推送到远程，先从本地删除，从远程删除：
+
+命令git tag -d <tagname>可以删除一个本地标签；
+
+命令git push origin :refs/tags/<tagname>可以删除一个远程标签。
+
+配置别名
+
+     git config --global alias.st status
+
+     git config --global alias.co checkout
+
+      git config --global alias.ci commit
+
+      git config --global alias.br branch
+
+每个仓库的Git配置文件都放在.git/config文件中
+
+     [core]
+
+         repositoryformatversion = 0
+
+         filemode = true bare = false
+
+         logallrefupdates = true ignorecase = true
+
+         precomposeunicode = true
+
+     [remote "origin"]
+
+         url = git@github.com:michaelliao/learngit.git
+
+         fetch = +refs/heads/*:refs/remotes/origin/*
+
+      [branch "master"]
+
+             remote = origin
+
+             merge = refs/heads/mastier [alias] last = log -1
+
+              co = checkout
+
+             ci = commit br = branch
+
+             st = status
+
+         [user]
+
+             name = Your Name
+
+             email = your@email.com
+
+
+git rebase hea~1
+
+git fetch：相当于是从远程获取最新版本到本地，不会自动merge
+git pull：相当于是从远程获取最新版本并merge到本地,相当于git fetch 和 git merge
+-----------------------------------
+在Linux系统上，使用git提交代码~~
+https://blog.51cto.com/rsddn/1856358
