@@ -375,7 +375,7 @@ void CountSort(int* a, int n) //计数排序
 	if (count == NULL)
 		return;
 	memset(count, 0, sizeof(int) * range);
-	for (int i = 0; i < range; i++)
+	for (int i = 0; i < n; i++)
 	{
 		count[a[i] - min]++;
 	}
