@@ -19,4 +19,5 @@ extern void StackPop(ST* pc);//弹栈
 extern bool StackEmpty(ST* pc);//栈是否为空
 extern void StackDestroy(ST* pc);//销毁栈
 extern void StackPrint(ST* pc);//打印
+extern void StackQueue();//栈实现队列
 extern void Stack(void);//总接口

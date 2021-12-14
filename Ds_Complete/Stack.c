@@ -49,14 +49,37 @@ static void StackPrint(ST* pc)//打印
 	}
 	printf("\n");
 }
+static void StackQueue(void)//栈实现队列
+{
+	ST st1, st2;
+	StackInit(&st1);
+	StackPush(&st1, 1);
+	StackPush(&st1, 2);
+	StackPush(&st1, 3);
+	StackPush(&st1, 4);
+	StackPush(&st1, 5);
+	StackInit(&st2);
+	while (!StackEmpty(&st1))
+	{
+		StackPush(&st2, StackTop(&st1));
+		StackPop(&st1);
+	}
+	while (!StackEmpty(&st2))
+	{
+		int tmp = StackTop(&st2);
+		StackPop(&st2);
+		printf("%d ", tmp);
+	}
+}
 void Stack(void)//总接口
 {
-	ST st;
+	/*ST st;
 	StackInit(&st);
 	StackPush(&st, 1);
 	StackPush(&st, 2);
 	StackPush(&st, 3);
 	StackPush(&st, 4);
 	StackPush(&st, 5);
-	StackPrint(&st);
+	StackPrint(&st);*/
+	StackQueue();
 }
