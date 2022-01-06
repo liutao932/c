@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<assert.h>
 #pragma warning(disable:4996)
 #define STR(s) #s
 void Reverse(char* str)
@@ -16,7 +17,8 @@ void Reverse(char* str)
 }
 char* ExchangeStr(int num)
 {
-	char* str = (char*)calloc(0, sizeof(char) * 64);
+	char* str = (char*)calloc(10, sizeof(char));    //calloc（空间大小，数据类型的大小）
+	assert(str);
 	int i = 0;
 	while (num)
 	{
@@ -24,7 +26,6 @@ char* ExchangeStr(int num)
 		str[i++] = tmp + '0';
 		num /= 10;
 	}
-	str[i] = '\0';
 	Reverse(str);
 	return str;
 }
