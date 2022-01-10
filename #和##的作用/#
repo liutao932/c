@@ -1,0 +1,13 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#pragma warning(disable:4996)
+//#define STUDENT_TD(n)  student##n
+#define STR(n) #n
+int main()
+{
+	int x = 1234;
+	char str[64] = { 0 };
+	strcpy(str, STR(1234));
+	printf(str);
+}
