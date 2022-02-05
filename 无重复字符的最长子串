@@ -1,0 +1,48 @@
+#include<stdbool.h>
+bool judge(const char *left,const char *rigth)
+{
+    int array[256] = {0};
+    int len = rigth - left + 1;
+    //printf("%d\n",len);
+    for(int i =0; i<len;i++)
+    {
+        array[(int)left[i]]++;
+    }
+    for(int i =0;i<256;i++)
+    {
+        if(array[i] >= 2)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+int lengthOfLongestSubstring(char * s)
+{
+    if(s == NULL)
+    return 0;
+    char *prev = s,*cur = s;
+    int count = 0;
+    while(*prev != '\0')
+    {
+            while(*cur != '\0')
+            {
+                if(judge(prev,cur))
+                {
+                    int len = cur - prev + 1;
+                    if(len > count)
+                    {
+                        count = len;
+                    }
+                }
+                else
+                {
+                     break;
+                }
+                cur++;
+            }
+            prev++;
+            cur = prev;
+    }
+    return count;
+}
