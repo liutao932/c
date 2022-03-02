@@ -58,7 +58,7 @@ bool CompleteBaniryTree()
 	{
 		BTNode* tmp = HeapFront(&q);
 		HeapPop(&q);
-		if (tmp == NULL)
+		if (tmp != NULL)
 		{
 			HeapDestroy(&q);
 			return false;
