@@ -1,0 +1,25 @@
+void TreeStack(void)
+{
+	BTNode* root = NULL;
+	BTNodeCreat(&root);
+	ST s;
+	init(&s);
+	push(&s, root);
+	while (!empty(&s))
+	{
+		BTNode* tmp = top(&s);
+		pop(&s);
+		printf("%c ", tmp->data);
+		if (tmp->RigthChild)
+			push(&s, tmp->RigthChild);
+		if (tmp->LeftChild)
+			push(&s, tmp->LeftChild);
+	}
+	destroy(&s);
+}
+int main()
+{
+	//test();
+	//test2();
+	TreeStack();
+}
