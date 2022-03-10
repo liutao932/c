@@ -17,6 +17,28 @@ void TreeStack(void)
 	}
 	destroy(&s);
 }
+void TreeStack2(void)
+{
+	BTNode* root = NULL;
+	BTNodeCreat(&root);
+	ST s;
+	init(&s);
+	while (!empty(&s) || root != NULL)
+	{
+		if (root != NULL)
+		{
+			push(&s, root);
+			root = root->LeftChild;
+		}
+		else
+		{
+			root = top(&s);
+			pop(&s);
+			printf("%c ", root->data);
+			root = root->RigthChild;
+		}
+	}
+}
 int main()
 {
 	//test();
