@@ -1,4 +1,4 @@
-﻿#include"sort.h"
+﻿	#include"sort.h"
 
 void PrintSort(int* a, int n)//打印
 {
@@ -126,7 +126,7 @@ void AdjustDown(int* a, int parent, int n)//堆的向下调整
 		}
 		else
 		{
-			break;
+			break;		
 		}
 	}
 }
